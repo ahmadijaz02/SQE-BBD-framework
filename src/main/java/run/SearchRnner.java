@@ -8,7 +8,7 @@ import io.cucumber.junit.CucumberOptions;
 @CucumberOptions(
     features = "C:\\Users\\4A\\Downloads\\abbbc\\src\\main\\java\\feature\\search.feature",
     glue = {"stepDefination"},
-    plugin = {"pretty", "html:target/cucumber-reports.html"},
+    plugin = {"io.qameta.allure.cucumber7jvm.AllureCucumber7Jvm"},
     monochrome = true
 )
 
