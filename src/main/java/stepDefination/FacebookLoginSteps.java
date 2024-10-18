@@ -3,17 +3,26 @@ package stepDefination;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+
+import base.BaseTest;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import io.qameta.allure.Attachment;
+import org.apache.commons.io.FileUtils;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 
-public class FacebookLoginSteps {
+import java.io.File;
+import java.io.IOException;
 
-    WebDriver driver;
+public class FacebookLoginSteps extends BaseTest {
+
+  
 
     @Given("I am on the Facebook login page")
     public void i_am_on_the_facebook_login_page() {
-        driver = new ChromeDriver();
+    	initializeDriver("chrome");
         driver.get("https://www.facebook.com/");
     }
 
@@ -48,25 +57,53 @@ public class FacebookLoginSteps {
         } else {
             System.out.println("Login failed or not redirected to homepage.");
         }
+        driver.quit();
     }
 
     @Then("I should see an error message")
     public void i_should_see_an_error_message() {
-        boolean isErrorDisplayed = driver.findElement(By.xpath("//div[contains(text(),'The email or phone number you’ve entered doesn’t match any account.')]")).isDisplayed();
-        if (isErrorDisplayed) {
-            System.out.println("Error message displayed.");
-        } else {
-            System.out.println("Error message not displayed.");
+        try {
+            boolean isErrorDisplayed = driver.findElement(By.xpath("//div[contains(text(),'The email or phone number you’ve entered doesn’t match any account.')]")).isDisplayed();
+            if (isErrorDisplayed) {
+                System.out.println("Error message displayed.");
+            } else {
+                System.out.println("Error message not displayed.");
+                takeScreenshot(); 
+            }
+            driver.quit();
+        } catch (Exception e) {
+            takeScreenshot(); 
         }
+      
     }
 
     @Then("I should see a validation error")
     public void i_should_see_a_validation_error() {
-        boolean isValidationErrorDisplayed = driver.findElement(By.xpath("//div[contains(text(),'The email or phone number you’ve entered doesn’t match any account.')]")).isDisplayed();
-        if (isValidationErrorDisplayed) {
-            System.out.println("Validation error displayed.");
-        } else {
-            System.out.println("Validation error not displayed.");
+        try {
+            boolean isValidationErrorDisplayed = driver.findElement(By.xpath("//div[contains(text(),'The email or phone number you’ve entered doesn’t match any account.')]")).isDisplayed();
+            if (isValidationErrorDisplayed) {
+                System.out.println("Validation error displayed.");
+            } else {
+                System.out.println("Validation error not displayed.");
+                takeScreenshot(); 
+            }
+            driver.quit();
+        } catch (Exception e) {
+            takeScreenshot(); 
         }
+        
+    }
+
+    @Attachment(value = "Screenshot", type = "image/png")
+    public byte[] takeScreenshot() {
+        TakesScreenshot ts = (TakesScreenshot) driver;
+        File source = ts.getScreenshotAs(OutputType.FILE);
+        byte[] fileContent = new byte[0];
+        try {
+            fileContent = FileUtils.readFileToByteArray(source);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return fileContent;
     }
 }

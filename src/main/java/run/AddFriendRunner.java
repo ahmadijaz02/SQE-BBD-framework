@@ -6,12 +6,11 @@ import io.cucumber.junit.CucumberOptions;
 
 @RunWith(Cucumber.class)
 @CucumberOptions(
-    features = "C:\\Users\\4A\\Downloads\\abbbc\\src\\main\\java\\feature\\search.feature",
+    features = "C:\\Users\\4A\\Downloads\\abbbc\\src\\main\\java\\feature\\addFriend.feature",
     glue = {"stepDefination"},
     plugin = {"io.qameta.allure.cucumber7jvm.AllureCucumber7Jvm"},
     monochrome = true
 )
-
-public class SearchRnner {
+public class AddFriendRunner {
 
 }
